@@ -1,0 +1,157 @@
+<?php
+  session_start(); 
+  error_reporting( error_reporting() & ~E_NOTICE );
+  require_once '../config/check.php';
+  require_once '../config/connectdb.php';
+
+	if(empty($objResult['status'] == '1')){ //Check ADMIN Status = 1
+    
+    echo "<script>";
+    echo "alert('Admin Only !!');";
+		echo "window.location='../index.php';";
+		echo "</script>";
+		exit;	
+	}
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Users</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <!-- Plugin CSS -->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+<!-- sweetalert2 -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  </head>
+
+  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+    <!-- Navigation -->
+  <?php require_once 'navbar.php'; ?>
+        <ul class="navbar-nav sidenav-toggler">
+          <li class="nav-item">
+            <a class="nav-link text-center" id="sidenavToggler">
+              <i class="fa fa-fw fa-angle-left"></i>
+            </a>
+          </li>
+        </ul>
+        
+      </div>
+    </nav>
+
+    <div class="content-wrapper">
+      <div class="container-fluid">
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="index.php">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Report Users</li>
+        </ol>
+        <!-- Example Tables Card -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-users"></i>
+            Report Users
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped" width="100%" id="dataTable" cellspacing="0">
+                <thead>
+                  <tr>
+                                    <th width="2%">NO.</th>  
+                                    <th width="2%">Username</th>
+                                    <th width="12%">Name</th>  
+                                    <th width="19%">E-Mail</th>
+                                    <th width="24%">Steam Link</th>   
+                                    <th width="12%">Date</th>  
+                                    <th width="10%">Point</th>     
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                                    <th width="2%">NO.</th>  
+                                    <th width="2%">Username</th>
+                                    <th width="12%">Name</th>  
+                                    <th width="19%">E-Mail</th>
+                                    <th width="24%">Steam Link</th>   
+                                    <th width="12%">Date</th>  
+                                    <th width="10%">Point</th>     
+                  </tr>
+                </tfoot>
+                <tbody>
+                <?php  
+              $queryuser = "SELECT * FROM `users` WHERE status = 0";  
+              $resultuser = mysqli_query($conn, $queryuser);  
+              $num=1;
+              while($datauser = mysqli_fetch_array($resultuser))  
+              { 
+              ?>  
+                  <tr>
+                    <td><b><?php echo $num; ?></b></td>
+                    <td><b><?php echo $datauser["username"]; ?></b></td>
+                    <td><b><?php echo $datauser["name"]; ?></b></td>
+                    <td><b><?php echo $datauser["email"]; ?></b></td>
+                    <td><b><?php echo $datauser["link"]; ?></b></td>
+                    <td><b><?php echo $datauser["date"]; ?></b></td>
+                    <td><b><font size="3"color="#E74C3C"><?php echo number_format($datauser['point'],2); ?></font></b></td>
+                  </tr>
+                  <?php  
+                     $num++;} 
+                  ?> 
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer small text-muted">
+            Users
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+  
+      </div>
+      <!-- /.container-fluid -->
+
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- footer -->
+    <?php require_once 'footer.php'; ?>
+
+    <!-- Scroll to Top Button -->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/sb-admin.min.js"></script>
+
+  </body>
+
+</html>
